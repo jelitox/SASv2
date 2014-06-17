@@ -138,7 +138,6 @@ class Titular extends ActiveRecord {
         $condicion = "titular.id = $titular";        
         return $this->find_first("columns: $columns", "join: $join", "conditions: $condicion");
     }
-<<<<<<< HEAD
 
     /**
      * Método para buscar Titular
@@ -211,8 +210,8 @@ class Titular extends ActiveRecord {
         $this->observacion = Filter::get($this->observacion, 'string');
     }    
 
-
+/*
 =======
->>>>>>> alexis/master
+>>>>>>> alexis/master*/
 }
 ?>
