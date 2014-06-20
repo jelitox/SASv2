@@ -210,8 +210,5 @@ class Titular extends ActiveRecord {
         $this->observacion = Filter::get($this->observacion, 'string');
     }    
 
-/*
-=======
->>>>>>> alexis/master*/
 }
 ?>
