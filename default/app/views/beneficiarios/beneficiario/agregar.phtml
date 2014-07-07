@@ -16,7 +16,7 @@
         <?php } ?>
             <li class="active"><a href="#tab1" data-toggle="tab">Información personal</a></li>
             <li><a href="#tab2" data-toggle="tab">Información laboral</a></li>
-            <li><a href="#tab3" data-toggle="tab">Cargar imagen</a></li>
+            <li><a href="#tab3" data-toggle="tab">Cargar Archivos</a></li>
         </ul>
         <div class="tab-content">
 
@@ -131,33 +131,123 @@
 
             </div>
 
-            <div class="tab-pane" id="tab3">
+         <div class="tab-pane" id="tab3">
 
-                <div class="row fileupload-buttonbar">
-
+            <div class="row fileupload-buttonbar">
+                <!-- ########################### FOTOGRAQFIA ############################## -->
                     <div class="span2">
                         <span class="btn btn-success fileinput-button">
                             <i class="icon-plus icon-white"></i>
-                            <span>Seleccionar fotografía...</span>
+                            <span>Seleccione Fotografía...</span>
                             <input id="fotografia" type="file" name="fotografia" class="input-large">
                         </span>
                     </div>
 
-                    <div id="upload-progress" class="span4 fileupload-progress fade">
+                    <div id="upload-progress" class="span1 fileupload-progress fade">
                         <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                             <div class="bar" style="width:0%;"></div>
                         </div>
                     </div>
 
-                    <div class="span5 dw-text-right">
-                        <div class="span5 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                    <div class="span3 dw-text-right">
+                        <div class="span2 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?php echo DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
+                        </div>
+                    </div>
+
+
+                   <!-- ########################### Cedula ############################## -->
+                    <div class="span2">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Seleccione Cédula...</span>
+                            <input id="cedula" type="file" name="cedula" class="input-large">
+                        </span>
+                    </div>
+
+                    <div id="upload-progress" class="span1 fileupload-progress fade">
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="span3 dw-text-right">
+                        <div class="span2 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
                             <?php echo DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="row-fluid">
+
+                <div class="row fileupload-buttonbar">
+                <!-- ########################### Carnet ############################## -->
+                    <div class="span2">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Seleccione Carnet...</span>
+                            <input id="carnet" type="file" name="carnet" class="input-large">
+                        </span>
+                    </div>
+
+                    <div id="upload-progress" class="span1 fileupload-progress fade">
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="span3 dw-text-right">
+                        <div class="span2 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?php echo DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
+                        </div>
+                    </div>
+                <!-- ########################### Acta de matrimonio ############################## -->
+                    <div class="span2">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Acta de Matrimonio...</span>
+                            <input id="actamatrimonio" type="file" name="actamatrimonio" class="input-large">
+                        </span>
+                    </div>
+
+                    <div id="upload-progress" class="span1 fileupload-progress fade">
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="span3 dw-text-right">
+                        <div class="span2 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?php echo DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ########################### Partida de Nacimiento ############################## -->
+                <div class="row fileupload-buttonbar">
+
+                    <div class="span2">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Partida de Nacimiento...</span>
+                            <input id="partidanacimiento" type="file" name="partidanacimiento" class="input-large">
+                        </span>
+                    </div>
+
+                    <div id="upload-progress" class="span1 fileupload-progress fade">
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="span3 dw-text-right">
+                        <div class="span2 dw-picture-profile dw-text-center dw-text-middle dw-shadow-dark" style="margin-top: 5px">
+                            <?php echo DwHtml::img('upload/personas/default.png', 'Imágen de muestra', array('id'=>'img-persona')); ?>
+                        </div>
+                    </div>
+                </div>
+
+              <div class="row-fluid">
 
                     <?php echo DwForm::hidden('persona.fotografia', NULL, 'default.png'); ?>
 
