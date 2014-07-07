@@ -91,18 +91,20 @@ class Titular extends ActiveRecord {
    public function obtener_titulares($titular) {
         if ($titular != '') {
             $titular = stripcslashes($titular);
-            $res = $this->find('columns: titular', "observacion like '%{$observacion}%'");
+            $res = $this->find_all_by_sql("
+select titular.id,titular.persona_id,persona.nombre1,persona.apellido1,cast(persona.cedula as integer) 
+from titular,persona where persona.cedula like '%{$titular}%' 
+and titular.persona_id = persona.id");
+            
             if ($res) {
                 foreach ($res as $titular) {
-                    $titulares[] = $titular->observacion;
+                    $titulares[] = array('id'=>$titular->id,'value'=>$titular->cedula,'idnombre'=>$titular->nombre1.' '.$titular->nombre2.' '.$titular->apellido1.' '.$titular->apellido2);
                 }
                 return $titulares;
             }
         }
         return array('no hubo coincidencias');
     }
-  
-
     /**
      * Método para verificar si una persona ya se encuentra registrada
      * @return obj
@@ -138,7 +140,6 @@ class Titular extends ActiveRecord {
         $condicion = "titular.id = $titular";        
         return $this->find_first("columns: $columns", "join: $join", "conditions: $condicion");
     }
-
     /**
      * Método para buscar Titular
      */
@@ -210,8 +211,6 @@ class Titular extends ActiveRecord {
         $this->observacion = Filter::get($this->observacion, 'string');
     }    
 
-/*
-=======
->>>>>>> alexis/master*/
+
 }
 ?>

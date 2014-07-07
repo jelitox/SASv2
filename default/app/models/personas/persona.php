@@ -21,6 +21,8 @@ class Persona extends ActiveRecord {
     protected function initialize() {
         $this->has_one('usuario');
         $this->has_one('titular');
+        $this->has_one('beneficiario');
+
         //$this->belongs_to('tipo_nuip');
     }
 
@@ -54,7 +56,23 @@ class Persona extends ActiveRecord {
         $rs = $obj->$method();
         return ($rs) ? $obj : FALSE;
     }
-
+    /**
+     * Método para obtener titulares
+     * @return obj
+     */
+   public function obtener_personas($persona) {
+        if ($persona != '') {
+            $persona = stripcslashes($persona);
+            $res = $this->find('columns: id,cedula,nombre1,nombre2,apellido1,apellido2', "nombre1 like '%{$persona}%' or apellido1 like '%{$persona}%' or nombre2 like '%{$persona}%' or apellido2 like '%{$persona}%' or cedula like '%{$persona}%'");
+            if ($res) {
+                foreach ($res as $persona) {
+                    $personas[] =  array('id'=>$persona->id,'value'=>$persona->nombre1.' '.$persona->nombre2.' '.$persona->apellido1.' '.$persona->apellido2);
+                }
+                return $personas;
+            }
+        }
+        return array('no hubo coincidencias');
+    }
     /**
      * Método para verificar si una persona ya se encuentra registrada
      * @return obj

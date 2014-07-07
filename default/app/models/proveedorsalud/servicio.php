@@ -7,7 +7,7 @@
  * @author      alexis borges
  * @copyright    
  */
-class Especialidad extends ActiveRecord {
+class Servicio extends ActiveRecord {
     
     /**
      * Constante para definir el id de la oficina principal
@@ -28,18 +28,18 @@ class Especialidad extends ActiveRecord {
     */            
     }  
     /**
-     * Método para obtener especialidades
+     * Método para obtener servicioes
      * @return obj
      */
-   public function obtener_especialidades($especialidad) {
-        if ($especialidad != '') {
-            $especialidad = stripcslashes($especialidad);
-            $res = $this->find('columns: descripcion', "descripcion like '%{$especialidad}%'");
+   public function obtener_servicios($servicio) {
+        if ($servicio != '') {
+            $servicio = stripcslashes($servicio);
+            $res = $this->find('columns: descripcion', "descripcion like '%{$servicio}%'");
             if ($res) {
-                foreach ($res as $especialidad) {
-                    $especialidades[] = $especialidad->descripcion;
+                foreach ($res as $servicio) {
+                    $servicios[] = array('id'=>$servicio->id,'value'=>$servicio->descripcion);
                 }
-                return $especialidades;
+                return $servicios;
             }
         }
         return array('no hubo coincidencias');
@@ -49,11 +49,11 @@ class Especialidad extends ActiveRecord {
      * @param int|string $id
      * @return Sucursal
      */
-    public function getInformacionEspecialidad($id, $isSlug=false) {
+    public function getInformacionservicio($id, $isSlug=false) {
         $id = ($isSlug) ? Filter::get($id, 'string') : Filter::get($id, 'numeric');
-        $columnas = 'especialidad.*';
+        $columnas = 'servicio.*';
         $join = '';
-        $condicion ="especialidad.id = '$id'";
+        $condicion ="servicio.id = '$id'";
         return $this->find_first("columns: $columnas", "join: $join", "conditions: $condicion");
     } 
     
@@ -63,12 +63,12 @@ class Especialidad extends ActiveRecord {
      * @param int $page 
      * @return ActiveRecord
      */
-    public function getListadoEspecialidad($order='order.nombre_corto.asc', $page='', $empresa=null) {
-        $columns = 'especialidad.*';
+    public function getListadoservicio($order='order.nombre_corto.asc', $page='', $empresa=null) {
+        $columns = 'servicio.*';
         $join = '';        
         //$conditions 
-        $order = $this->get_order($order, 'especialidad', array('especialidad'=>array('ASC'=>'especialidad.descripcion ASC, especialidad.observacion ASC',
-                                                                        'DESC'=>'especialidad.descripcion DESC, especialidad.observacion ASC')));
+        $order = $this->get_order($order, 'servicio', array('servicio'=>array('ASC'=>'servicio.descripcion ASC, servicio.observacion ASC',
+                                                                        'DESC'=>'servicio.descripcion DESC, servicio.observacion ASC')));
         if($page) {                
             return $this->paginated("columns: $columns", "join: $join", "order: $order", "page: $page");
         } else {
@@ -83,9 +83,9 @@ class Especialidad extends ActiveRecord {
      * @param array $otherData Array con datos adicionales
      * @return Obj
      */
-    public static function setEspecialidad($method, $data, $optData=null) {
+    public static function setservicio($method, $data, $optData=null) {
         //Se aplica la autocarga
-        $obj = new Especialidad($data);
+        $obj = new servicio($data);
         //Se verifica si contiene una data adicional para autocargar
         if ($optData) {
             $obj->dump_result_self($optData);
@@ -107,7 +107,7 @@ class Especialidad extends ActiveRecord {
         $conditions = "descripcion = '$this->descripcion'";
         $conditions.= (isset($this->id)) ? " AND id != $this->id" : '';
         if($this->count("conditions: $conditions")) {
-            DwMessage::error('Lo sentimos, pero ya existe una Especialidad registrada con el mismo nombre.');
+            DwMessage::error('Lo sentimos, pero ya existe una servicio registrada con el mismo nombre.');
             return 'cancel';
         }
         

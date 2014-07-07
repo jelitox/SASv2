@@ -2,7 +2,7 @@
 /**
  * Alexis
  *
- * Descripcion: Controlador que se encarga de la gestión de los Cargos de la empresa
+ * Descripcion: Controlador que se encarga de la gestión de los tiposolicitudes de la empresa
  *
  * @category    
  * @package     Controllers 
@@ -10,9 +10,9 @@
  * @copyright   Copyright (c) 2013 Dailyscript Team (http://www.dailyscript.com.co)
  */
 
-Load::models('config/cargo');
+Load::models('config/tiposolicitud');
 
-class CargoController extends BackendController {
+class tiposolicitudController extends BackendController {
     
     /**
      * Método que se ejecuta antes de cualquier acción
@@ -34,10 +34,10 @@ class CargoController extends BackendController {
      */
     public function listar($order='order.nombre.asc', $page='pag.1') { 
         $page = (Filter::get($page, 'page') > 0) ? Filter::get($page, 'page') : 1;
-        $cargo = new Cargo();        
-        $this->cargos = $cargo->getListadoCargo($order, $page);
+        $tiposolicitud = new tiposolicitud();        
+        $this->tiposolicitudes = $tiposolicitud->getListadotiposolicitud($order, $page);
         $this->order = $order;        
-        $this->page_title = 'Listado de Cargo';
+        $this->page_title = 'Listado de tiposolicitud';
     }
     
     /**
@@ -45,26 +45,26 @@ class CargoController extends BackendController {
      */
     public function agregar() {
     //    $empresa = Session::get('empresa', 'config');
-        if(Input::hasPost('cargo')) {
-            if(Cargo::setCargo('create', Input::post('cargo'))) {
-                DwMessage::valid('La cargo se ha registrado correctamente!');
+        if(Input::hasPost('tiposolicitud')) {
+            if(tiposolicitud::settiposolicitud('create', Input::post('tiposolicitud'))) {
+                DwMessage::valid('El tipo solicitud se ha registrado correctamente!');
                 return DwRedirect::toAction('listar');
             }            
         } 
-        $this->page_title = 'Agregar Cargo';
+        $this->page_title = 'Agregar Tipo de Solicitud';
     }
      /**
-     * Método para obtener cargos
+     * Método para obtener tiposolicitudes
      */
     
-        //accion que busca en los cargos y devuelve el json con los datos
+        //accion que busca en los tiposolicitudes y devuelve el json con los datos
     public function autocomplete() {
         View::template(NULL);
         View::select(NULL);
         if (Input::isAjax()) { //solo devolvemos los estados si se accede desde ajax 
             $busqueda = Input::post('busqueda');
-            $cargos = Load::model('config/cargo')->obtener_cargos($busqueda);
-            die(json_encode($cargos)); // solo devolvemos los datos, sin template ni vista
+            $tiposolicitudes = Load::model('config/tiposolicitud')->obtener_tiposolicitudes($busqueda);
+            die(json_encode($tiposolicitudes)); // solo devolvemos los datos, sin template ni vista
             //json_encode nos devolverá el array en formato json ["aragua","carabobo","..."]
         }
     }    
@@ -72,46 +72,46 @@ class CargoController extends BackendController {
      * Método para editar
      */
     public function editar($key) {        
-        if(!$id = DwSecurity::isValidKey($key, 'upd_cargo', 'int')) {
+        if(!$id = DwSecurity::isValidKey($key, 'upd_tiposolicitud', 'int')) {
             return DwRedirect::toAction('listar');
         }        
         
-        $cargo = new Cargo();
-        if(!$cargo->getInformacionCargo($id)) {            
+        $tiposolicitud = new tiposolicitud();
+        if(!$tiposolicitud->getInformacionTiposolicitud($id)) {            
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
         }
         
-        if(Input::hasPost('cargo') && DwSecurity::isValidKey(Input::post('cargo_id_key'), 'form_key')) {
-            if(Cargo::setCargo('update', Input::post('cargo'))){
-                DwMessage::valid('La cargo se ha actualizado correctamente!');
+        if(Input::hasPost('tiposolicitud') && DwSecurity::isValidKey(Input::post('tiposolicitud_id_key'), 'form_key')) {
+            if(tiposolicitud::settiposolicitud('update', Input::post('tiposolicitud'))){
+                DwMessage::valid('La tiposolicitud se ha actualizado correctamente!');
                 return DwRedirect::toAction('listar');
             }
         } 
         //$this->ciudades = Load::model('params/ciudad')->getCiudadesToJson();
-        $this->cargo = $cargo;
-        $this->page_title = 'Actualizar cargo';        
+        $this->tiposolicitud = $tiposolicitud;
+        $this->page_title = 'Actualizar tiposolicitud';        
     }
     
     /**
      * Método para eliminar
      */
     public function eliminar($key) {         
-        if(!$id = DwSecurity::isValidKey($key, 'del_cargo', 'int')) {
+        if(!$id = DwSecurity::isValidKey($key, 'del_tiposolicitud', 'int')) {
             return DwRedirect::toAction('listar');
         }        
         
-        $cargo = new Cargo();
-        if(!$cargo->getInformacionCargo($id)) {            
+        $tiposolicitud = new tiposolicitud();
+        if(!$tiposolicitud->getInformaciontiposolicitud($id)) {            
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
         }                
         try {
-            if(Cargo::setCargo('delete', array('id'=>$cargo->id))) {
-                DwMessage::valid('La cargo se ha eliminado correctamente!');
+            if(tiposolicitud::settiposolicitud('delete', array('id'=>$tiposolicitud->id))) {
+                DwMessage::valid('El tipo solicitud se ha eliminado correctamente!');
             }
         } catch(KumbiaException $e) {
-            DwMessage::error('Esta cargo no se puede eliminar porque se encuentra relacionada con otro registro.');
+            DwMessage::error('Esta tipo de solicitud no se puede eliminar porque se encuentra relacionada con otro registro.');
         }
         
         return DwRedirect::toAction('listar');

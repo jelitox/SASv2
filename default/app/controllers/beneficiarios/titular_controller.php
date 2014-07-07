@@ -58,8 +58,23 @@ class TitularController extends BackendController {
         View::select(NULL);
         if (Input::isAjax()) { //solo devolvemos los estados si se accede desde ajax 
             $busqueda = Input::post('busqueda');
-            $titulares = Load::model('titular')->obtener_titulares($busqueda);
+            $titulares = Load::model('beneficiarios/titular')->obtener_titulares($busqueda);
             die(json_encode($titulares)); // solo devolvemos los datos, sin template ni vista
+            //json_encode nos devolverá el array en formato json ["aragua","carabobo","..."]
+        }
+    }
+/**
+     * Método para obtener patologias
+     */
+    
+        //accion que busca en las patologias y devuelve el json con los datos
+    public function autocomplete2() {
+        View::template(NULL);
+        View::select(NULL);
+        if (Input::isAjax()) { //solo devolvemos los estados si se accede desde ajax 
+            $busqueda = Input::post('busqueda');
+            $patologias = Load::model('patologia')->obtener_patologias($busqueda);
+            die(json_encode($patologias)); // solo devolvemos los datos, sin template ni vista
             //json_encode nos devolverá el array en formato json ["aragua","carabobo","..."]
         }
     }

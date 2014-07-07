@@ -2,7 +2,7 @@
 /**
  * Alexis
  *
- * Descripcion: Controlador que se encarga de la gestión de los Especialidades de la empresa
+ * Descripcion: Controlador que se encarga de la gestión de los servicioes de la empresa
  *
  * @category    
  * @package     Controllers 
@@ -10,9 +10,9 @@
  * @copyright   infoalex
  */
 
-Load::models('proveedorsalud/especialidad');
+Load::models('proveedorsalud/servicio');
 
-class EspecialidadController extends BackendController {
+class ServicioController extends BackendController {
     
     /**
      * Método que se ejecuta antes de cualquier acción
@@ -34,23 +34,23 @@ class EspecialidadController extends BackendController {
      */
     public function listar($order='order.nombre.asc', $page='pag.1') { 
         $page = (Filter::get($page, 'page') > 0) ? Filter::get($page, 'page') : 1;
-        $especialidad = new Especialidad();        
-        $this->especialidades = $especialidad->getListadoEspecialidad($order, $page);
+        $servicio = new servicio();        
+        $this->servicios = $servicio->getListadoservicio($order, $page);
         $this->order = $order;        
-        $this->page_title = 'Listado de Especialidades';
+        $this->page_title = 'Listado de servicios';
     }
      /**
-     * Método para obtener especialidades
+     * Método para obtener servicios
      */
     
-        //accion que busca en las especialidades y devuelve el json con los datos
+        //accion que busca en las servicioes y devuelve el json con los datos
     public function autocomplete() {
         View::template(NULL);
         View::select(NULL);
         if (Input::isAjax()) { //solo devolvemos los estados si se accede desde ajax 
             $busqueda = Input::post('busqueda');
-            $especialidades = Load::model('proveedorsalud/especialidad')->obtener_especialidades($busqueda);
-            die(json_encode($especialidades)); // solo devolvemos los datos, sin template ni vista
+            $servicios = Load::model('proveedorsalud/servicio')->obtener_servicios($busqueda);
+            die(json_encode($servicios)); // solo devolvemos los datos, sin template ni vista
             //json_encode nos devolverá el array en formato json ["aragua","carabobo","..."]
         }
     }        
@@ -59,59 +59,59 @@ class EspecialidadController extends BackendController {
      */
     public function agregar() {
     //    $empresa = Session::get('empresa', 'config');
-        if(Input::hasPost('especialidad')) {
-            if(Especialidad::setEspecialidad('create', Input::post('especialidad'))) {
-                DwMessage::valid('La especialidad se ha registrado correctamente!');
+        if(Input::hasPost('servicio')) {
+            if(servicio::setservicio('create', Input::post('servicio'))) {
+                DwMessage::valid('El servicio se ha registrado correctamente!');
                 return DwRedirect::toAction('listar');
             }            
         } 
-        $this->page_title = 'Agregar Especialidad';
+        $this->page_title = 'Agregar servicio';
     }
     
     /**
      * Método para editar
      */
     public function editar($key) {        
-        if(!$id = DwSecurity::isValidKey($key, 'upd_especialidad', 'int')) {
+        if(!$id = DwSecurity::isValidKey($key, 'upd_servicio', 'int')) {
             return DwRedirect::toAction('listar');
         }        
         
-        $especialidad = new Especialidad();
-        if(!$especialidad->getInformacionEspecialidad($id)) {            
+        $servicio = new servicio();
+        if(!$servicio->getInformacionservicio($id)) {            
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
         }
         
-        if(Input::hasPost('especialidad') && DwSecurity::isValidKey(Input::post('especialidad_id_key'), 'form_key')) {
-            if(Especialidad::setEspecialidad('update', Input::post('especialidad'))){
-                DwMessage::valid('La especialidad se ha actualizado correctamente!');
+        if(Input::hasPost('servicio') && DwSecurity::isValidKey(Input::post('servicio_id_key'), 'form_key')) {
+            if(servicio::setservicio('update', Input::post('servicio'))){
+                DwMessage::valid('La servicio se ha actualizado correctamente!');
                 return DwRedirect::toAction('listar');
             }
         } 
         //$this->ciudades = Load::model('params/ciudad')->getCiudadesToJson();
-        $this->especialidad = $especialidad;
-        $this->page_title = 'Actualizar especialidad';        
+        $this->servicio = $servicio;
+        $this->page_title = 'Actualizar servicio';        
     }
     
     /**
      * Método para eliminar
      */
     public function eliminar($key) {         
-        if(!$id = DwSecurity::isValidKey($key, 'del_especialidad', 'int')) {
+        if(!$id = DwSecurity::isValidKey($key, 'del_servicio', 'int')) {
             return DwRedirect::toAction('listar');
         }        
         
-        $especialidad = new Especialidad();
-        if(!$especialidad->getInformacionEspecialidad($id)) {            
+        $servicio = new servicio();
+        if(!$servicio->getInformacionservicio($id)) {            
             DwMessage::get('id_no_found');
             return DwRedirect::toAction('listar');
         }                
         try {
-            if(Especialidad::setEspecialidad('delete', array('id'=>$especialidad->id))) {
-                DwMessage::valid('La especialidad se ha eliminado correctamente!');
+            if(servicio::setservicio('delete', array('id'=>$servicio->id))) {
+                DwMessage::valid('El servicio se ha eliminado correctamente!');
             }
         } catch(KumbiaException $e) {
-            DwMessage::error('Esta especialidad no se puede eliminar porque se encuentra relacionada con otro registro.');
+            DwMessage::error('Esta servicio no se puede eliminar porque se encuentra relacionada con otro registro.');
         }
         
         return DwRedirect::toAction('listar');

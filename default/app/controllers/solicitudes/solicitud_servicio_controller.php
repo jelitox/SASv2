@@ -11,6 +11,7 @@
  */
 
 Load::models('solicitudes/solicitud_servicio');
+Load::models('config/tiposolicitud');
 
 class SolicitudServicioController extends BackendController {
     
@@ -26,7 +27,7 @@ class SolicitudServicioController extends BackendController {
      * Método principal
      */
     public function index() {
-        DwRedirect::toAction('listar');
+        DwRedirect::toAction('registro');
     }
     
     /**
@@ -39,6 +40,7 @@ class SolicitudServicioController extends BackendController {
         $this->order = $order;        
         $this->page_title = 'Listado de Solicitudes de Atención Primaria';
     }
+
     
     /**
      * Método para registro
@@ -77,10 +79,26 @@ class SolicitudServicioController extends BackendController {
      */
     public function agregar() {
         $empresa = Session::get('empresa', 'config');
+        $solicitud_servicio = new SolicitudServicio();
+        $nroids = $solicitud_servicio->count("tiposolicitud_id = 1");
+        $this->codigods=$nroids+1;
+		$correlativ= new Tiposolicitud();
+        $codigocorrelativo = $correlativ->find("columns: correlativo","conditions: id=1 ", "limit: 1 ");
+         foreach ($codigocorrelativo as $cargoa) {
+                    $this->cargoas[] = $cargoa->correlativo;
+                }
+        $this->codigodd=$this->cargoas[0].'00'.$this->codigods;
+;                
+        //$a= array('codid'=>$siglas,'codvalue'=>$numero_registros);;
+         
+//        $solicitud_servicio = new SolicitudServicio();
+//        $ppp1 = $solicitud_servicio->getCodigoSolicitud1();
+//        $solicitud_servicio->getCodigoSolicitud2();
+//        var_dump($ppp1);
         if(Input::hasPost('solicitud_servicio')) {
             if(SolicitudServicio::setSolicitudServicio('create', Input::post('solicitud_servicio'))) {
                 DwMessage::valid('La solicitud se ha registrado correctamente!');
-                return DwRedirect::toAction('listar');
+                return DwRedirect::toAction('registro');
             }            
         } 
        // $this->personas = Load::model('beneficiarios/titular')->getTitularesToJson();
